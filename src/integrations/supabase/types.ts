@@ -14,7 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      responses: {
+        Row: {
+          author_name: string | null
+          body: string
+          created_at: string
+          id: string
+          lat: number | null
+          lng: number | null
+          survey_id: string
+        }
+        Insert: {
+          author_name?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          survey_id: string
+        }
+        Update: {
+          author_name?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          survey_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      surveys: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          neighborhood: string | null
+          owner_id: string
+          polygon: Json
+          status: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          neighborhood?: string | null
+          owner_id: string
+          polygon?: Json
+          status?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          neighborhood?: string | null
+          owner_id?: string
+          polygon?: Json
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
