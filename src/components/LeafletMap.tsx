@@ -8,12 +8,13 @@ export type MapMode = "view" | "draw" | "pick";
 export interface LeafletMapProps {
   mode: MapMode;
   polygon: LatLng[];
-  marker?: LatLng | null;
-  points?: LatLng[];
-  onPolygonChange?: (polygon: LatLng[]) => void;
-  onMarkerChange?: (marker: LatLng | null) => void;
-  className?: string;
+  marker?: LatLng | null | undefined;
+  points?: LatLng[] | undefined;
+  onPolygonChange?: ((polygon: LatLng[]) => void) | undefined;
+  onMarkerChange?: ((marker: LatLng | null) => void) | undefined;
+  className?: string | undefined;
 }
+
 
 export default function LeafletMap({
   mode,
