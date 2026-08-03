@@ -10,33 +10,123 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AccessoRouteImport } from './routes/accesso'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
+import { Route as AuthenticatedGestioneIndexRouteImport } from './routes/_authenticated/gestione/index'
+import { Route as AuthenticatedGestioneSurveyIdRouteImport } from './routes/_authenticated/gestione/$surveyId'
+import { Route as AuthenticatedGestioneNuovaRouteImport } from './routes/_authenticated/gestione/nuova'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessoRoute = AccessoRouteImport.update({
+  id: '/accesso',
+  path: '/accesso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SSurveyIdRoute = SSurveyIdRouteImport.update({
+  id: '/s/$surveyId',
+  path: '/s/$surveyId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedGestioneIndexRoute =
+  AuthenticatedGestioneIndexRouteImport.update({
+    id: '/gestione/',
+    path: '/gestione/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGestioneSurveyIdRoute =
+  AuthenticatedGestioneSurveyIdRouteImport.update({
+    id: '/gestione/$surveyId',
+    path: '/gestione/$surveyId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGestioneNuovaRoute =
+  AuthenticatedGestioneNuovaRouteImport.update({
+    id: '/gestione/nuova',
+    path: '/gestione/nuova',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/s/$surveyId': typeof SSurveyIdRoute
+  '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
+  '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/gestione/': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/s/$surveyId': typeof SSurveyIdRoute
+  '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
+  '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/gestione': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/s/$surveyId': typeof SSurveyIdRoute
+  '/_authenticated/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
+  '/_authenticated/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/_authenticated/gestione/': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/accesso'
+    | '/reset-password'
+    | '/s/$surveyId'
+    | '/gestione/$surveyId'
+    | '/gestione/nuova'
+    | '/gestione/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/accesso'
+    | '/reset-password'
+    | '/s/$surveyId'
+    | '/gestione/$surveyId'
+    | '/gestione/nuova'
+    | '/gestione'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/accesso'
+    | '/reset-password'
+    | '/s/$surveyId'
+    | '/_authenticated/gestione/$surveyId'
+    | '/_authenticated/gestione/nuova'
+    | '/_authenticated/gestione/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AccessoRoute: typeof AccessoRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SSurveyIdRoute: typeof SSurveyIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +138,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accesso': {
+      id: '/accesso'
+      path: '/accesso'
+      fullPath: '/accesso'
+      preLoaderRoute: typeof AccessoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/s/$surveyId': {
+      id: '/s/$surveyId'
+      path: '/s/$surveyId'
+      fullPath: '/s/$surveyId'
+      preLoaderRoute: typeof SSurveyIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/gestione/': {
+      id: '/_authenticated/gestione/'
+      path: '/gestione'
+      fullPath: '/gestione/'
+      preLoaderRoute: typeof AuthenticatedGestioneIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/gestione/$surveyId': {
+      id: '/_authenticated/gestione/$surveyId'
+      path: '/gestione/$surveyId'
+      fullPath: '/gestione/$surveyId'
+      preLoaderRoute: typeof AuthenticatedGestioneSurveyIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/gestione/nuova': {
+      id: '/_authenticated/gestione/nuova'
+      path: '/gestione/nuova'
+      fullPath: '/gestione/nuova'
+      preLoaderRoute: typeof AuthenticatedGestioneNuovaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedGestioneSurveyIdRoute: typeof AuthenticatedGestioneSurveyIdRoute
+  AuthenticatedGestioneNuovaRoute: typeof AuthenticatedGestioneNuovaRoute
+  AuthenticatedGestioneIndexRoute: typeof AuthenticatedGestioneIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedGestioneSurveyIdRoute: AuthenticatedGestioneSurveyIdRoute,
+  AuthenticatedGestioneNuovaRoute: AuthenticatedGestioneNuovaRoute,
+  AuthenticatedGestioneIndexRoute: AuthenticatedGestioneIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AccessoRoute: AccessoRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SSurveyIdRoute: SSurveyIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
