@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessoRouteImport } from './routes/accesso'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const AccessoRoute = AccessoRouteImport.update({
   path: '/accesso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SSurveyIdRoute = SSurveyIdRouteImport.update({
   id: '/s/$surveyId',
   path: '/s/$surveyId',
@@ -32,30 +38,34 @@ const SSurveyIdRoute = SSurveyIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/accesso' | '/s/$surveyId'
+  fullPaths: '/' | '/accesso' | '/reset-password' | '/s/$surveyId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accesso' | '/s/$surveyId'
-  id: '__root__' | '/' | '/accesso' | '/s/$surveyId'
+  to: '/' | '/accesso' | '/reset-password' | '/s/$surveyId'
+  id: '__root__' | '/' | '/accesso' | '/reset-password' | '/s/$surveyId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessoRoute: typeof AccessoRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SSurveyIdRoute: typeof SSurveyIdRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccessoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/s/$surveyId': {
       id: '/s/$surveyId'
       path: '/s/$surveyId'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessoRoute: AccessoRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SSurveyIdRoute: SSurveyIdRoute,
 }
 export const routeTree = rootRouteImport
