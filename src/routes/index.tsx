@@ -48,7 +48,12 @@ function Index() {
           <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl">
             I problemi dei <span className="text-accent">QUARTIERI</span> di Pordenone
           </h1>
-          <p className="mt-4 text-base opacity-95">
+          <img
+            src={notepad}
+            alt="Blocco note con la scritta Dimmi ti ascolto"
+            className="mx-auto mt-6 w-full max-w-sm rounded-xl shadow-lg"
+          />
+          <p className="mt-6 text-base opacity-95">
             Scrivi il più importante per te e inseriscilo qui.
           </p>
           <p className="mt-1 text-sm opacity-80">
@@ -56,6 +61,7 @@ function Index() {
           </p>
         </div>
       </section>
+
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <h2 className="font-display text-2xl text-primary">Indagini aperte</h2>
