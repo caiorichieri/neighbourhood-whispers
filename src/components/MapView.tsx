@@ -3,7 +3,7 @@ import type { LeafletMapProps } from "./LeafletMap";
 
 const LeafletMap = lazy(() => import("./LeafletMap"));
 
-function Placeholder({ className }: { className?: string }) {
+function Placeholder({ className }: { className?: string | undefined }) {
   return (
     <div
       className={`flex items-center justify-center bg-muted text-sm text-muted-foreground ${className ?? ""}`}
