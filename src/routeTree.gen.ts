@@ -15,6 +15,7 @@ import { Route as AccessoRouteImport } from './routes/accesso'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
 import { Route as AuthenticatedGestioneIndexRouteImport } from './routes/_authenticated/gestione/index'
+import { Route as AuthenticatedGestioneNuovaRouteImport } from './routes/_authenticated/gestione/nuova'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,12 +47,19 @@ const AuthenticatedGestioneIndexRoute =
     path: '/gestione/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedGestioneNuovaRoute =
+  AuthenticatedGestioneNuovaRouteImport.update({
+    id: '/gestione/nuova',
+    path: '/gestione/nuova',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
+  '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
   '/gestione/': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRoutesByTo {
@@ -59,6 +67,7 @@ export interface FileRoutesByTo {
   '/accesso': typeof AccessoRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
+  '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
   '/gestione': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRoutesById {
@@ -68,14 +77,26 @@ export interface FileRoutesById {
   '/accesso': typeof AccessoRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
+  '/_authenticated/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
   '/_authenticated/gestione/': typeof AuthenticatedGestioneIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/accesso' | '/reset-password' | '/s/$surveyId' | '/gestione/'
+    | '/'
+    | '/accesso'
+    | '/reset-password'
+    | '/s/$surveyId'
+    | '/gestione/nuova'
+    | '/gestione/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/accesso' | '/reset-password' | '/s/$surveyId' | '/gestione'
+  to:
+    | '/'
+    | '/accesso'
+    | '/reset-password'
+    | '/s/$surveyId'
+    | '/gestione/nuova'
+    | '/gestione'
   id:
     | '__root__'
     | '/'
@@ -83,6 +104,7 @@ export interface FileRouteTypes {
     | '/accesso'
     | '/reset-password'
     | '/s/$surveyId'
+    | '/_authenticated/gestione/nuova'
     | '/_authenticated/gestione/'
   fileRoutesById: FileRoutesById
 }
@@ -138,14 +160,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGestioneIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/gestione/nuova': {
+      id: '/_authenticated/gestione/nuova'
+      path: '/gestione/nuova'
+      fullPath: '/gestione/nuova'
+      preLoaderRoute: typeof AuthenticatedGestioneNuovaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedGestioneNuovaRoute: typeof AuthenticatedGestioneNuovaRoute
   AuthenticatedGestioneIndexRoute: typeof AuthenticatedGestioneIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedGestioneNuovaRoute: AuthenticatedGestioneNuovaRoute,
   AuthenticatedGestioneIndexRoute: AuthenticatedGestioneIndexRoute,
 }
 
