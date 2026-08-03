@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccessoRouteImport } from './routes/accesso'
 import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccessoRoute = AccessoRouteImport.update({
+  id: '/accesso',
+  path: '/accesso',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SSurveyIdRoute = SSurveyIdRouteImport.update({
@@ -25,27 +31,31 @@ const SSurveyIdRoute = SSurveyIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accesso': typeof AccessoRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accesso': typeof AccessoRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accesso': typeof AccessoRoute
   '/s/$surveyId': typeof SSurveyIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/s/$surveyId'
+  fullPaths: '/' | '/accesso' | '/s/$surveyId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/s/$surveyId'
-  id: '__root__' | '/' | '/s/$surveyId'
+  to: '/' | '/accesso' | '/s/$surveyId'
+  id: '__root__' | '/' | '/accesso' | '/s/$surveyId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessoRoute: typeof AccessoRoute
   SSurveyIdRoute: typeof SSurveyIdRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accesso': {
+      id: '/accesso'
+      path: '/accesso'
+      fullPath: '/accesso'
+      preLoaderRoute: typeof AccessoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/s/$surveyId': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessoRoute: AccessoRoute,
   SSurveyIdRoute: SSurveyIdRoute,
 }
 export const routeTree = rootRouteImport
