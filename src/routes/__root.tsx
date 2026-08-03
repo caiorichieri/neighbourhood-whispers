@@ -84,16 +84,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Raccolta anonima delle opinioni dei cittadini sui problemi dei quartieri di Pordenone.",
+          "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente.",
       },
       { name: "author", content: "La Fabbrica della Città Nuova" },
-      { property: "og:title", content: "Dimmi, ti ascolto" },
+      { property: "og:title", content: "Dimmi, ti ascolto — I problemi dei quartieri di Pordenone" },
       {
         property: "og:description",
-        content: "I problemi dei quartieri di Pordenone, raccontati dai cittadini.",
+        content: "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Dimmi, ti ascolto — I problemi dei quartieri di Pordenone" },
+      { name: "twitter:description", content: "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b7718fc8-0d02-477d-b607-4da722e0435b" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b7718fc8-0d02-477d-b607-4da722e0435b" },
     ],
     links: [
       {

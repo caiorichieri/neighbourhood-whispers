@@ -16,11 +16,11 @@ export const Route = createFileRoute("/")({
         content:
           "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente.",
       },
-      { property: "og:title", content: "Dimmi, ti ascolto — quartieri di Pordenone" },
+      { property: "og:title", content: "Dimmi, ti ascolto — I problemi dei quartieri di Pordenone" },
       {
         property: "og:description",
         content:
-          "Le indagini aperte sui problemi dei quartieri di Pordenone. Partecipa in modo anonimo.",
+          "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
