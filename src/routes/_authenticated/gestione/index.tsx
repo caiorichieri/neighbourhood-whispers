@@ -128,10 +128,19 @@ function ManagePage() {
                       Vedi risposte
                     </Link>
                   </Button>
+                  <Button asChild size="sm" variant="outline">
+                    <Link to="/gestione/modifica/$surveyId" params={{ surveyId: survey.id }}>
+                      <Pencil className="size-4" /> Modifica
+                    </Link>
+                  </Button>
                   <Button size="sm" variant="outline" onClick={() => copyLink(survey.id)}>
                     <Copy className="size-4" /> Copia link
                   </Button>
+                  <Button size="sm" variant="destructive" onClick={() => removeSurvey(survey.id)}>
+                    <Trash2 className="size-4" /> Elimina
+                  </Button>
                 </div>
+
               </div>
             </article>
           ))}
