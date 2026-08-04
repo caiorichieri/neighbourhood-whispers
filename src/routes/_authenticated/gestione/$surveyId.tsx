@@ -7,7 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toCsv, type LatLng } from "@/lib/geo";
-import { fetchResponses, fetchSurvey } from "@/lib/surveys";
+import { deleteSurvey, fetchResponses, fetchSurvey } from "@/lib/surveys";
 
 export const Route = createFileRoute("/_authenticated/gestione/$surveyId")({
   head: () => ({
