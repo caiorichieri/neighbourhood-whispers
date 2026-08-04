@@ -7,7 +7,7 @@ import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toCsv, type LatLng } from "@/lib/geo";
-import { fetchResponses, fetchSurvey } from "@/lib/surveys";
+import { deleteSurvey, fetchResponses, fetchSurvey } from "@/lib/surveys";
 
 export const Route = createFileRoute("/_authenticated/gestione/$surveyId")({
   head: () => ({
@@ -64,13 +64,17 @@ function SurveyResponses() {
   const removeSurvey = async () => {
     if (!survey) return;
     if (!window.confirm("Eliminare l'indagine e tutte le risposte?")) return;
-    const { error } = await supabase.from("surveys").delete().eq("id", survey.id);
-    if (error) {
+    try {
+      await deleteSurvey(survey.id);
+    } catch {
       toast.error("Eliminazione non riuscita.");
       return;
     }
+    await queryClient.invalidateQueries({ queryKey: ["all-surveys"] });
+    await queryClient.invalidateQueries({ queryKey: ["all-responses"] });
     navigate({ to: "/gestione" });
   };
+
 
   const exportCsv = () => {
     const rows = [
@@ -113,9 +117,15 @@ function SurveyResponses() {
           <Button size="sm" variant="outline" onClick={exportCsv}>
             <Download className="size-4" /> Esporta CSV
           </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/gestione/modifica/$surveyId" params={{ surveyId }}>
+              Modifica indagine
+            </Link>
+          </Button>
           <Button size="sm" variant="outline" onClick={toggleStatus}>
             {survey?.status === "active" ? "Chiudi indagine" : "Riapri indagine"}
           </Button>
+
           <Button size="sm" variant="destructive" onClick={removeSurvey}>
             Elimina
           </Button>

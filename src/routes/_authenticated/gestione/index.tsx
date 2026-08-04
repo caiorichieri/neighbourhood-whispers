@@ -1,12 +1,18 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Copy, LogOut, MapPin, MessageSquare, Phone, Plus } from "lucide-react";
+import { Copy, LogOut, MapPin, MessageSquare, Pencil, Phone, Plus, Trash2 } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { countResponses, fetchAllResponses, fetchAllSurveys } from "@/lib/surveys";
+import {
+  countResponses,
+  deleteSurvey,
+  fetchAllResponses,
+  fetchAllSurveys,
+} from "@/lib/surveys";
+
 
 export const Route = createFileRoute("/_authenticated/gestione/")({
   head: () => ({
@@ -27,6 +33,9 @@ export const Route = createFileRoute("/_authenticated/gestione/")({
 
 function ManagePage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+
 
   const { data: surveys } = useQuery({
     queryKey: ["all-surveys"],
@@ -58,6 +67,20 @@ function ManagePage() {
     void navigator.clipboard.writeText(`${window.location.origin}/s/${id}`);
     toast.success("Link copiato.");
   };
+
+  const removeSurvey = async (id: string) => {
+    if (!window.confirm("Eliminare l'indagine e tutte le risposte? L'azione è definitiva.")) return;
+    try {
+      await deleteSurvey(id);
+    } catch {
+      toast.error("Eliminazione non riuscita.");
+      return;
+    }
+    await queryClient.invalidateQueries({ queryKey: ["all-surveys"] });
+    await queryClient.invalidateQueries({ queryKey: ["all-responses"] });
+    toast.success("Indagine eliminata.");
+  };
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -128,10 +151,19 @@ function ManagePage() {
                       Vedi risposte
                     </Link>
                   </Button>
+                  <Button asChild size="sm" variant="outline">
+                    <Link to="/gestione/modifica/$surveyId" params={{ surveyId: survey.id }}>
+                      <Pencil className="size-4" /> Modifica
+                    </Link>
+                  </Button>
                   <Button size="sm" variant="outline" onClick={() => copyLink(survey.id)}>
                     <Copy className="size-4" /> Copia link
                   </Button>
+                  <Button size="sm" variant="destructive" onClick={() => removeSurvey(survey.id)}>
+                    <Trash2 className="size-4" /> Elimina
+                  </Button>
                 </div>
+
               </div>
             </article>
           ))}

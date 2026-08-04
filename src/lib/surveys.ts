@@ -120,3 +120,15 @@ export async function countResponses(surveyIds: string[]): Promise<Record<string
   }
   return counts;
 }
+
+/** Elimina un'indagine e tutte le sue risposte. */
+export async function deleteSurvey(surveyId: string): Promise<void> {
+  const { error: respError } = await supabase
+    .from("responses")
+    .delete()
+    .eq("survey_id", surveyId);
+  if (respError) throw respError;
+  const { error } = await supabase.from("surveys").delete().eq("id", surveyId);
+  if (error) throw error;
+}
+
