@@ -17,6 +17,7 @@ export interface SurveyResponse {
   survey_id: string;
   body: string;
   author_name: string | null;
+  phone: string | null;
   lat: number | null;
   lng: number | null;
   created_at: string;
@@ -35,6 +36,15 @@ type Row = {
 
 function mapSurvey(row: Row): Survey {
   return { ...row, polygon: parsePolygon(row.polygon) };
+}
+
+export async function isAdmin(userId: string): Promise<boolean> {
+  const { data, error } = await supabase.rpc("has_role", {
+    _user_id: userId,
+    _role: "admin",
+  });
+  if (error) return false;
+  return data === true;
 }
 
 export async function fetchActiveSurveys(): Promise<Survey[]> {
@@ -57,6 +67,16 @@ export async function fetchSurvey(id: string): Promise<Survey | null> {
   return data ? mapSurvey(data as Row) : null;
 }
 
+/** Admin master: vede tutte le indagini. */
+export async function fetchAllSurveys(): Promise<Survey[]> {
+  const { data, error } = await supabase
+    .from("surveys")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data as Row[]).map(mapSurvey);
+}
+
 export async function fetchMySurveys(userId: string): Promise<Survey[]> {
   const { data, error } = await supabase
     .from("surveys")
@@ -72,6 +92,16 @@ export async function fetchResponses(surveyId: string): Promise<SurveyResponse[]
     .from("responses")
     .select("*")
     .eq("survey_id", surveyId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return data as SurveyResponse[];
+}
+
+/** Tutte le risposte (dashboard admin). */
+export async function fetchAllResponses(): Promise<SurveyResponse[]> {
+  const { data, error } = await supabase
+    .from("responses")
+    .select("*")
     .order("created_at", { ascending: false });
   if (error) throw error;
   return data as SurveyResponse[];
