@@ -64,13 +64,17 @@ function SurveyResponses() {
   const removeSurvey = async () => {
     if (!survey) return;
     if (!window.confirm("Eliminare l'indagine e tutte le risposte?")) return;
-    const { error } = await supabase.from("surveys").delete().eq("id", survey.id);
-    if (error) {
+    try {
+      await deleteSurvey(survey.id);
+    } catch {
       toast.error("Eliminazione non riuscita.");
       return;
     }
+    await queryClient.invalidateQueries({ queryKey: ["all-surveys"] });
+    await queryClient.invalidateQueries({ queryKey: ["all-responses"] });
     navigate({ to: "/gestione" });
   };
+
 
   const exportCsv = () => {
     const rows = [
