@@ -147,11 +147,15 @@ function SurveyResponses() {
                 <span>{new Date(r.created_at).toLocaleString("it-IT")}</span>
               </div>
               <p className="mt-2 whitespace-pre-wrap text-sm text-card-foreground">{r.body}</p>
+              {r.phone && (
+                <p className="mt-2 text-xs text-muted-foreground">Telefono: {r.phone}</p>
+              )}
               {r.lat != null && r.lng != null && (
                 <p className="mt-2 text-xs text-muted-foreground">
                   Punto segnalato: {r.lat.toFixed(5)}, {r.lng.toFixed(5)}
                 </p>
               )}
+
             </article>
           ))}
         </div>
