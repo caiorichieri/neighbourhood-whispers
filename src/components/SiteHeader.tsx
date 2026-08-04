@@ -32,13 +32,13 @@ export function SiteFooter() {
   return (
     <footer className="mt-12 border-t border-border bg-background">
       <div className="mx-auto max-w-4xl px-4 py-3">
-        <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
+        <div className="flex flex-row items-center justify-center gap-3">
           <img
             src={friuliOnLogo.url}
             alt="Friuli On"
             className="h-32 w-auto object-contain"
           />
-          <div className="text-center text-xs text-muted-foreground sm:text-left">
+          <div className="text-left text-xs text-muted-foreground">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
             <p>
               Tel.{" "}
