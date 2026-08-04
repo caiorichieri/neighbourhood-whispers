@@ -36,7 +36,7 @@ export function SiteFooter() {
           <img
             src={friuliOnLogo.url}
             alt="Friuli On"
-            className="h-14 w-auto object-contain"
+            className="h-24 w-auto object-contain"
           />
           <div className="text-center text-xs text-muted-foreground sm:text-left">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
