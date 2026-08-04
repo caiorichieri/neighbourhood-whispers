@@ -40,7 +40,7 @@ export function SiteFooter() {
           />
           <div className="text-center text-xs text-muted-foreground">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
-            <p className="flex flex-col sm:block">
+            <p className="flex flex-col items-center sm:block">
               <span>
                 Tel.{" "}
                 <a href="tel:+393518230667" className="underline hover:text-primary">
