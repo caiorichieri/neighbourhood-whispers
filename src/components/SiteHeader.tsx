@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo-fabbrica.jpg";
+import friuliOnLogo from "@/assets/friulion-logo.png.asset.json";
 
 export function SiteHeader({ action }: { action?: React.ReactNode }) {
   return (
@@ -29,8 +30,37 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-12 border-t border-border py-6 text-center text-xs text-muted-foreground">
-      La Fabbrica della Città Nuova · I problemi dei quartieri di Pordenone
+    <footer className="mt-12 border-t border-border bg-background">
+      <div className="mx-auto max-w-4xl px-4 py-6">
+        <p className="text-center text-xs text-muted-foreground">
+          La Fabbrica della Città Nuova · I problemi dei quartieri di Pordenone
+        </p>
+        <div className="mt-4 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <img
+            src={friuliOnLogo.url}
+            alt="Friuli On"
+            className="h-8 w-auto object-contain"
+          />
+          <div className="text-center text-xs text-muted-foreground sm:text-left">
+            <p className="font-medium text-foreground">Realizzato da Friuli On</p>
+            <p>
+              Tel.{" "}
+              <a href="tel:+393518230667" className="underline hover:text-primary">
+                351 823 0667
+              </a>
+              {" · "}P.IVA 03157410303{" · "}
+              <a
+                href="https://friulion.it"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-primary"
+              >
+                friulion.it
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
