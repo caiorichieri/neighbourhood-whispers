@@ -74,15 +74,17 @@ function SurveyResponses() {
 
   const exportCsv = () => {
     const rows = [
-      ["data", "nome", "testo", "lat", "lng"],
+      ["data", "nome", "telefono", "testo", "lat", "lng"],
       ...(responses ?? []).map((r) => [
         new Date(r.created_at).toLocaleString("it-IT"),
         r.author_name ?? "",
+        r.phone ?? "",
         r.body,
         r.lat != null ? String(r.lat) : "",
         r.lng != null ? String(r.lng) : "",
       ]),
     ];
+
     const blob = new Blob(["\uFEFF" + toCsv(rows)], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -145,11 +147,15 @@ function SurveyResponses() {
                 <span>{new Date(r.created_at).toLocaleString("it-IT")}</span>
               </div>
               <p className="mt-2 whitespace-pre-wrap text-sm text-card-foreground">{r.body}</p>
+              {r.phone && (
+                <p className="mt-2 text-xs text-muted-foreground">Telefono: {r.phone}</p>
+              )}
               {r.lat != null && r.lng != null && (
                 <p className="mt-2 text-xs text-muted-foreground">
                   Punto segnalato: {r.lat.toFixed(5)}, {r.lng.toFixed(5)}
                 </p>
               )}
+
             </article>
           ))}
         </div>

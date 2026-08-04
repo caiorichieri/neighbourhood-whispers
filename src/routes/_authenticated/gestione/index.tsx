@@ -1,23 +1,22 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Copy, LogOut, Plus } from "lucide-react";
+import { Copy, LogOut, MapPin, MessageSquare, Phone, Plus } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { countResponses, fetchMySurveys } from "@/lib/surveys";
+import { countResponses, fetchAllResponses, fetchAllSurveys } from "@/lib/surveys";
 
 export const Route = createFileRoute("/_authenticated/gestione/")({
   head: () => ({
     meta: [
-      { title: "Le mie indagini | Dimmi, ti ascolto" },
+      { title: "Dashboard indagini | Dimmi, ti ascolto" },
       {
         name: "description",
-        content: "Gestisci le indagini di quartiere, condividi i link e leggi le risposte.",
+        content: "Dashboard del gestore: indagini, risposte raccolte e contatti lasciati.",
       },
-      { property: "og:title", content: "Le mie indagini" },
+      { property: "og:title", content: "Dashboard indagini" },
       { property: "og:description", content: "Area gestore delle indagini di quartiere." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -28,16 +27,10 @@ export const Route = createFileRoute("/_authenticated/gestione/")({
 
 function ManagePage() {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUserId(data.user?.id ?? null));
-  }, []);
 
   const { data: surveys } = useQuery({
-    queryKey: ["my-surveys", userId],
-    queryFn: () => fetchMySurveys(userId!),
-    enabled: !!userId,
+    queryKey: ["all-surveys"],
+    queryFn: fetchAllSurveys,
   });
 
   const { data: counts } = useQuery({
@@ -45,6 +38,16 @@ function ManagePage() {
     queryFn: () => countResponses(surveys!.map((s) => s.id)),
     enabled: !!surveys && surveys.length > 0,
   });
+
+  const { data: responses } = useQuery({
+    queryKey: ["all-responses"],
+    queryFn: fetchAllResponses,
+  });
+
+  const titleOf = (id: string) => surveys?.find((s) => s.id === id)?.title ?? "Indagine";
+
+  const withPoint = responses?.filter((r) => r.lat != null && r.lng != null).length ?? 0;
+  const withPhone = responses?.filter((r) => r.phone).length ?? 0;
 
   const logout = async () => {
     await supabase.auth.signOut();
@@ -65,9 +68,9 @@ function ManagePage() {
           </Button>
         }
       />
-      <main className="mx-auto max-w-4xl px-4 py-8">
+      <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="font-display text-3xl text-primary">Le mie indagini</h1>
+          <h1 className="font-display text-3xl text-primary">Dashboard</h1>
           <Button asChild>
             <Link to="/gestione/nuova">
               <Plus className="size-4" /> Nuova indagine
@@ -75,13 +78,28 @@ function ManagePage() {
           </Button>
         </div>
 
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          <Stat
+            icon={<MessageSquare className="size-4" />}
+            label="Risposte totali"
+            value={responses?.length ?? 0}
+          />
+          <Stat
+            icon={<MapPin className="size-4" />}
+            label="Con punto sulla mappa"
+            value={withPoint}
+          />
+          <Stat icon={<Phone className="size-4" />} label="Contatti lasciati" value={withPhone} />
+        </div>
+
+        <h2 className="mt-10 font-display text-2xl text-primary">Indagini</h2>
         {surveys?.length === 0 && (
-          <p className="mt-6 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-            Non hai ancora creato indagini.
+          <p className="mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+            Non c'è ancora nessuna indagine.
           </p>
         )}
 
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {surveys?.map((survey) => (
             <article
               key={survey.id}
@@ -90,7 +108,7 @@ function ManagePage() {
               <MapView mode="view" polygon={survey.polygon} className="h-36 w-full" />
               <div className="p-4">
                 <div className="flex items-center justify-between gap-2">
-                  <h2 className="font-bold text-card-foreground">{survey.title}</h2>
+                  <h3 className="font-bold text-card-foreground">{survey.title}</h3>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${
                       survey.status === "active"
@@ -118,8 +136,65 @@ function ManagePage() {
             </article>
           ))}
         </div>
+
+        <h2 className="mt-10 font-display text-2xl text-primary">Ultime risposte</h2>
+        <div className="mt-4 space-y-3">
+          {responses?.length === 0 && (
+            <p className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+              Ancora nessuna risposta.
+            </p>
+          )}
+          {responses?.slice(0, 30).map((r) => (
+            <article key={r.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
+                <Link
+                  to="/gestione/$surveyId"
+                  params={{ surveyId: r.survey_id }}
+                  className="font-semibold text-primary underline"
+                >
+                  {titleOf(r.survey_id)}
+                </Link>
+                <span>{new Date(r.created_at).toLocaleString("it-IT")}</span>
+              </div>
+              <p className="mt-2 whitespace-pre-wrap text-sm text-card-foreground">{r.body}</p>
+              <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted-foreground">
+                <span>{r.author_name || "Anonimo"}</span>
+                {r.phone && (
+                  <span className="flex items-center gap-1">
+                    <Phone className="size-3" /> {r.phone}
+                  </span>
+                )}
+                {r.lat != null && r.lng != null && (
+                  <span className="flex items-center gap-1">
+                    <MapPin className="size-3" /> {r.lat.toFixed(5)}, {r.lng.toFixed(5)}
+                  </span>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
       </main>
       <SiteFooter />
+    </div>
+  );
+}
+
+function Stat({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-4">
+      <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {icon}
+        {label}
+      </p>
+      <p className="mt-1 text-3xl font-extrabold text-primary">{value}</p>
     </div>
   );
 }
