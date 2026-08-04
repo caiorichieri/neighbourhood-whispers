@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo-fabbrica.jpg";
+import friuliOnLogo from "@/assets/friulion-logo.png.asset.json";
 
 export function SiteHeader({ action }: { action?: React.ReactNode }) {
   return (
