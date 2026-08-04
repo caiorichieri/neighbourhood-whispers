@@ -117,9 +117,15 @@ function SurveyResponses() {
           <Button size="sm" variant="outline" onClick={exportCsv}>
             <Download className="size-4" /> Esporta CSV
           </Button>
+          <Button asChild size="sm" variant="outline">
+            <Link to="/gestione/modifica/$surveyId" params={{ surveyId }}>
+              Modifica indagine
+            </Link>
+          </Button>
           <Button size="sm" variant="outline" onClick={toggleStatus}>
             {survey?.status === "active" ? "Chiudi indagine" : "Riapri indagine"}
           </Button>
+
           <Button size="sm" variant="destructive" onClick={removeSurvey}>
             Elimina
           </Button>
