@@ -31,12 +31,12 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
 export function SiteFooter() {
   return (
     <footer className="mt-12 border-t border-border bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-6">
-        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <div className="mx-auto max-w-4xl px-4 py-3">
+        <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
           <img
             src={friuliOnLogo.url}
             alt="Friuli On"
-            className="h-24 w-auto object-contain"
+            className="h-32 w-auto object-contain"
           />
           <div className="text-center text-xs text-muted-foreground sm:text-left">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
