@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { isAdmin } from "@/lib/surveys";
 
 export const Route = createFileRoute("/accesso")({
   head: () => ({
@@ -30,15 +31,16 @@ export const Route = createFileRoute("/accesso")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [info, setInfo] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/gestione" });
+    supabase.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      if (await isAdmin(data.user.id)) navigate({ to: "/gestione" });
+      else setInfo("Questo account non è il gestore autorizzato.");
     });
   }, [navigate]);
 
@@ -46,31 +48,20 @@ function AuthPage() {
     e.preventDefault();
     setBusy(true);
     setInfo(null);
-    if (mode === "login") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error || !data.user) {
       setBusy(false);
-      if (error) {
-        toast.error("Accesso non riuscito. Controlla email e password.");
-        return;
-      }
-      navigate({ to: "/gestione" });
-    } else {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: window.location.origin },
-      });
-      setBusy(false);
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      if (data.session) {
-        navigate({ to: "/gestione" });
-      } else {
-        setInfo("Ti abbiamo inviato un'email: conferma l'indirizzo per accedere.");
-      }
+      toast.error("Accesso non riuscito. Controlla email e password.");
+      return;
     }
+    const admin = await isAdmin(data.user.id);
+    setBusy(false);
+    if (!admin) {
+      await supabase.auth.signOut();
+      setInfo("Questo account non è abilitato a gestire le indagini.");
+      return;
+    }
+    navigate({ to: "/gestione" });
   };
 
   const resetPassword = async () => {
@@ -89,11 +80,9 @@ function AuthPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <main className="mx-auto max-w-md px-4 py-10">
-        <h1 className="font-display text-3xl text-primary">
-          {mode === "login" ? "Accesso gestore" : "Registrazione gestore"}
-        </h1>
+        <h1 className="font-display text-3xl text-primary">Accesso gestore</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Area riservata a chi crea e gestisce le indagini.
+          Area riservata all'unico account gestore delle indagini.
         </p>
 
         {info && (
@@ -125,25 +114,14 @@ function AuthPage() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={busy}>
-            {busy ? "Attendere…" : mode === "login" ? "Accedi" : "Registrati"}
+            {busy ? "Attendere…" : "Accedi"}
           </Button>
         </form>
 
         <div className="mt-4 flex flex-col gap-2 text-sm">
-          <button
-            type="button"
-            className="text-primary underline"
-            onClick={() => setMode(mode === "login" ? "signup" : "login")}
-          >
-            {mode === "login"
-              ? "Non hai un account? Registrati"
-              : "Hai già un account? Accedi"}
+          <button type="button" className="text-primary underline" onClick={resetPassword}>
+            Password dimenticata?
           </button>
-          {mode === "login" && (
-            <button type="button" className="text-primary underline" onClick={resetPassword}>
-              Password dimenticata?
-            </button>
-          )}
           <Link to="/" className="text-muted-foreground underline">
             Torna al sito pubblico
           </Link>
