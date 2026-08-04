@@ -33,6 +33,9 @@ export const Route = createFileRoute("/_authenticated/gestione/")({
 
 function ManagePage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+
 
   const { data: surveys } = useQuery({
     queryKey: ["all-surveys"],
