@@ -54,7 +54,7 @@ export function SiteFooter() {
                   href="https://friulion.it"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline hover:text-primary"
+                  className="underline hover:text-primary block sm:inline"
                 >
                   www.friulion.it
                 </a>
