@@ -93,6 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente.",
       },
       { property: "og:type", content: "website" },
+      { name: "theme-color", content: "#1a9ad7" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Dimmi ti ascolto" },
+
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Dimmi, ti ascolto — I problemi dei quartieri di Pordenone" },
       { name: "twitter:description", content: "Racconta in modo anonimo qual è il problema più importante del tuo quartiere a Pordenone. Nessuna registrazione, scrivi liberamente." },
