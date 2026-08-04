@@ -68,6 +68,20 @@ function ManagePage() {
     toast.success("Link copiato.");
   };
 
+  const removeSurvey = async (id: string) => {
+    if (!window.confirm("Eliminare l'indagine e tutte le risposte? L'azione è definitiva.")) return;
+    try {
+      await deleteSurvey(id);
+    } catch {
+      toast.error("Eliminazione non riuscita.");
+      return;
+    }
+    await queryClient.invalidateQueries({ queryKey: ["all-surveys"] });
+    await queryClient.invalidateQueries({ queryKey: ["all-responses"] });
+    toast.success("Indagine eliminata.");
+  };
+
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader
