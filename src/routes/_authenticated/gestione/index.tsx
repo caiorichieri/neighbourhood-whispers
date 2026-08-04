@@ -1,12 +1,18 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Copy, LogOut, MapPin, MessageSquare, Phone, Plus } from "lucide-react";
+import { Copy, LogOut, MapPin, MessageSquare, Pencil, Phone, Plus, Trash2 } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { countResponses, fetchAllResponses, fetchAllSurveys } from "@/lib/surveys";
+import {
+  countResponses,
+  deleteSurvey,
+  fetchAllResponses,
+  fetchAllSurveys,
+} from "@/lib/surveys";
+
 
 export const Route = createFileRoute("/_authenticated/gestione/")({
   head: () => ({
