@@ -40,20 +40,25 @@ export function SiteFooter() {
           />
           <div className="text-left text-xs text-muted-foreground">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
-            <p>
-              Tel.{" "}
-              <a href="tel:+393518230667" className="underline hover:text-primary">
-                351 823 0667
-              </a>
-              {" · "}P.IVA 03157410303{" · "}
-              <a
-                href="https://friulion.it"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-primary"
-              >
-                friulion.it
-              </a>
+            <p className="flex flex-col sm:block">
+              <span>
+                Tel.{" "}
+                <a href="tel:+393518230667" className="underline hover:text-primary">
+                  351 823 0667
+                </a>
+              </span>
+              <span className="hidden sm:inline">{" · "}</span>
+              <span className="block sm:inline">
+                P.IVA 03157410303{" · "}
+                <a
+                  href="https://friulion.it"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-primary"
+                >
+                  www.friulion.it
+                </a>
+              </span>
             </p>
           </div>
         </div>
