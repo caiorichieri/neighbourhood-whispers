@@ -38,7 +38,7 @@ export function SiteFooter() {
             alt="Friuli On"
             className="h-32 w-auto object-contain"
           />
-          <div className="text-left text-xs text-muted-foreground">
+          <div className="text-center text-xs text-muted-foreground">
             <p className="font-medium text-foreground">Realizzato da Friuli On</p>
             <p className="flex flex-col sm:block">
               <span>
