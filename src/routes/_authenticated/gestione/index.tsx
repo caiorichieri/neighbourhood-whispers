@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -12,6 +13,8 @@ import {
   fetchAllResponses,
   fetchAllSurveys,
 } from "@/lib/surveys";
+import { createSponsor, deleteSponsor, fetchSponsors } from "@/lib/sponsors";
+
 
 
 export const Route = createFileRoute("/_authenticated/gestione/")({
