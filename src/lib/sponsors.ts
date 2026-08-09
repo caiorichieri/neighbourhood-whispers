@@ -7,7 +7,7 @@ export interface Sponsor {
   logo_path: string;
   sort_order: number;
   created_at: string;
-  logo_url?: string;
+  logo_url?: string | undefined;
 }
 
 const BUCKET = "sponsors";
