@@ -55,6 +55,33 @@ export type Database = {
           },
         ]
       }
+      sponsors: {
+        Row: {
+          created_at: string
+          id: string
+          logo_path: string
+          name: string
+          sort_order: number
+          website_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          logo_path: string
+          name: string
+          sort_order?: number
+          website_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          logo_path?: string
+          name?: string
+          sort_order?: number
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       surveys: {
         Row: {
           created_at: string
