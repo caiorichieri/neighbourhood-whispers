@@ -32,7 +32,10 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-12 border-t border-border bg-background">
+    <>
+      <SponsorsSection />
+      <footer className="mt-6 border-t border-border bg-background">
+
       <div className="mx-auto max-w-4xl px-4 py-3">
         <div className="flex flex-row items-center justify-center gap-3">
           <img
