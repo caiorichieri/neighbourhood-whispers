@@ -51,10 +51,11 @@ function Index() {
             I problemi dei <span className="text-accent">QUARTIERI</span> di Pordenone
           </h1>
           <img
-            src={notepad}
-            alt="Blocco note con la scritta Dimmi ti ascolto"
+            src={notepad.url}
+            alt="Cartello Dimmi ti ascolto — I problemi dei quartieri di Pordenone"
             className="mx-auto mt-6 w-full max-w-sm rounded-xl shadow-lg"
           />
+
           <p className="mt-6 text-base opacity-95">
             Scrivi il più importante per te e inseriscilo qui.
           </p>
