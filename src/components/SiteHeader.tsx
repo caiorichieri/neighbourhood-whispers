@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/logo-fabbrica.jpg";
+import logo from "@/assets/logo-fabbrica.png.asset.json";
 import friuliOnLogo from "@/assets/friulion-logo.png.asset.json";
+import { SponsorsSection } from "@/components/SponsorsSection";
 
 export function SiteHeader({ action }: { action?: React.ReactNode }) {
   return (
@@ -8,10 +9,11 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
       <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3">
         <Link to="/" className="flex items-center gap-3">
           <img
-            src={logo}
+            src={logo.url}
             alt="Logo La Fabbrica della Città Nuova"
-            className="size-11 shrink-0 rounded-full bg-background object-cover"
+            className="size-12 shrink-0 object-contain"
           />
+
           <span className="leading-tight">
             <span className="block text-[11px] uppercase tracking-wide opacity-90">
               La Fabbrica della Città Nuova
@@ -30,7 +32,10 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-12 border-t border-border bg-background">
+    <>
+      <SponsorsSection />
+      <footer className="mt-6 border-t border-border bg-background">
+
       <div className="mx-auto max-w-4xl px-4 py-3">
         <div className="flex flex-row items-center justify-center gap-3">
           <img
@@ -63,6 +68,8 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-    </footer>
+      </footer>
+    </>
   );
+
 }
