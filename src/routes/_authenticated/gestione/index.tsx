@@ -316,6 +316,13 @@ function SponsorsManager() {
         </div>
       </form>
 
+      {sponsors?.length === 0 && (
+        <p className="mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
+          Nessun patrocinatore inserito: la sezione resta nascosta sul sito finché non ne aggiungi
+          almeno uno.
+        </p>
+      )}
+
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {sponsors?.map((s) => (
           <div
