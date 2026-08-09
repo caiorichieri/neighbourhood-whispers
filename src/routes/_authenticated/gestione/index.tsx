@@ -236,3 +236,112 @@ function Stat({
     </div>
   );
 }
+
+function SponsorsManager() {
+  const queryClient = useQueryClient();
+  const { data: sponsors } = useQuery({ queryKey: ["sponsors"], queryFn: fetchSponsors });
+  const [name, setName] = useState("");
+  const [url, setUrl] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !file) {
+      toast.error("Inserisci il nome e carica il logo.");
+      return;
+    }
+    setSaving(true);
+    try {
+      await createSponsor({
+        name: name.trim(),
+        website_url: url.trim() ? (url.startsWith("http") ? url.trim() : `https://${url.trim()}`) : null,
+        file,
+      });
+      setName("");
+      setUrl("");
+      setFile(null);
+      await queryClient.invalidateQueries({ queryKey: ["sponsors"] });
+      toast.success("Patrocinatore aggiunto.");
+    } catch {
+      toast.error("Salvataggio non riuscito.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const remove = async (id: string) => {
+    const sponsor = sponsors?.find((s) => s.id === id);
+    if (!sponsor) return;
+    if (!window.confirm("Eliminare questo patrocinatore?")) return;
+    try {
+      await deleteSponsor(sponsor);
+      await queryClient.invalidateQueries({ queryKey: ["sponsors"] });
+      toast.success("Patrocinatore eliminato.");
+    } catch {
+      toast.error("Eliminazione non riuscita.");
+    }
+  };
+
+  return (
+    <section className="mt-10">
+      <h2 className="font-display text-2xl text-primary">Patrocinatori</h2>
+      <form
+        onSubmit={submit}
+        className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-3"
+      >
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Nome del patrocinatore"
+          maxLength={120}
+          className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+        />
+        <input
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="Sito web (es. www.esempio.it)"
+          className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+        />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+        />
+        <div className="sm:col-span-3">
+          <Button type="submit" size="sm" disabled={saving}>
+            <Plus className="size-4" /> {saving ? "Caricamento…" : "Aggiungi patrocinatore"}
+          </Button>
+        </div>
+      </form>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {sponsors?.map((s) => (
+          <div
+            key={s.id}
+            className="flex items-center gap-3 rounded-xl border border-border bg-card p-3"
+          >
+            <img src={s.logo_url} alt={`Logo ${s.name}`} className="h-14 w-24 object-contain" />
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-semibold text-card-foreground">{s.name}</p>
+              {s.website_url && (
+                <a
+                  href={s.website_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block truncate text-xs text-muted-foreground underline"
+                >
+                  {s.website_url}
+                </a>
+              )}
+            </div>
+            <Button size="sm" variant="destructive" onClick={() => remove(s.id)}>
+              <Trash2 className="size-4" />
+            </Button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
