@@ -329,7 +329,7 @@ function SponsorsManager() {
             key={s.id}
             className="flex items-center gap-3 rounded-xl border border-border bg-card p-3"
           >
-            <img src={s.logo_url} alt={`Logo ${s.name}`} className="h-16 w-28 object-contain" />
+            <img src={s.logo_url} alt={`Logo ${s.name}`} className="h-20 w-36 object-contain" />
             <div className="min-w-0 flex-1">
               <p className="truncate font-semibold text-card-foreground">{s.name}</p>
               {s.website_url && (

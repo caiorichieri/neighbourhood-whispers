@@ -18,7 +18,7 @@ export function SponsorsSection() {
             <img
               src={s.logo_url}
               alt={`Logo ${s.name}`}
-              className="h-20 w-auto max-w-[216px] object-contain"
+              className="h-24 w-auto max-w-[270px] object-contain"
               loading="lazy"
             />
           );
