@@ -4,7 +4,7 @@ import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { fetchActiveSurveys } from "@/lib/surveys";
-import notepad from "@/assets/dimmi-notepad.jpg";
+import notepad from "@/assets/dimmi-poster.jpg.asset.json";
 
 
 export const Route = createFileRoute("/")({
