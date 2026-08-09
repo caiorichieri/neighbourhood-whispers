@@ -172,7 +172,10 @@ function ManagePage() {
           ))}
         </div>
 
+        <SponsorsManager />
+
         <h2 className="mt-10 font-display text-2xl text-primary">Ultime risposte</h2>
+
         <div className="mt-4 space-y-3">
           {responses?.length === 0 && (
             <p className="rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
