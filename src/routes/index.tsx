@@ -48,8 +48,8 @@ function Index() {
       </section>
 
       <main className="mx-auto max-w-4xl px-4 py-8">
-        <div className="grid items-start gap-6 lg:grid-cols-2">
-          <div>
+        <div className="grid items-stretch gap-6 lg:grid-cols-2">
+          <div className="h-full">
             {isLoading && (
               <p className="text-sm text-muted-foreground">Caricamento…</p>
             )}
@@ -60,14 +60,14 @@ function Index() {
               </p>
             )}
 
-            <div className="grid gap-4">
+            <div className="grid h-full gap-4">
               {surveys?.map((survey) => (
                 <article
                   key={survey.id}
-                  className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+                  className="flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm"
                 >
-                  <MapView mode="view" polygon={survey.polygon} className="h-40 w-full" />
-                  <div className="p-4">
+                  <MapView mode="view" polygon={survey.polygon} className="h-40 w-full shrink-0" />
+                  <div className="flex flex-1 flex-col p-4">
                     {survey.neighborhood && (
                       <p className="text-xs font-semibold uppercase tracking-wide text-primary">
                         {survey.neighborhood}
@@ -81,11 +81,13 @@ function Index() {
                         {survey.description}
                       </p>
                     )}
-                    <Button asChild className="mt-4 w-full">
-                      <Link to="/s/$surveyId" params={{ surveyId: survey.id }}>
-                        Dimmi la tua
-                      </Link>
-                    </Button>
+                    <div className="mt-auto pt-4">
+                      <Button asChild className="w-full">
+                        <Link to="/s/$surveyId" params={{ surveyId: survey.id }}>
+                          Dimmi la tua
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
                 </article>
               ))}
