@@ -37,13 +37,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SiteHeader
-        action={
-          <Button asChild variant="secondary" size="sm">
-            <Link to="/accesso">Accedi</Link>
-          </Button>
-        }
-      />
+      <SiteHeader />
 
       <section className="bg-primary px-4 pb-10 pt-4 text-primary-foreground">
         <div className="mx-auto max-w-4xl text-center">
