@@ -92,20 +92,23 @@ function Index() {
             </div>
           </div>
 
-          <div className="text-center">
+          <div className="flex h-full items-start justify-center">
             <img
               src={notepad.url}
               alt="Cartello Dimmi ti ascolto — I problemi dei quartieri di Pordenone"
-              className="mx-auto w-full max-w-sm rounded-xl shadow-lg"
+              className="mx-auto w-full max-w-sm rounded-xl object-cover object-bottom shadow-lg"
+              style={{ aspectRatio: "4 / 5" }}
             />
-
-            <p className="mt-6 text-base text-foreground">
-              Scrivi il più importante per te e inseriscilo qui.
-            </p>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Nessuna registrazione, nessun filtro: il nome è facoltativo.
-            </p>
           </div>
+        </div>
+
+        <div className="mt-8 text-center">
+          <p className="text-base text-foreground">
+            Scrivi il più importante per te e inseriscilo qui.
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Nessuna registrazione, nessun filtro: il nome è facoltativo.
+          </p>
         </div>
       </main>
 
