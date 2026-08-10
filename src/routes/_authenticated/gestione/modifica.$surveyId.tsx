@@ -62,10 +62,11 @@ function EditSurvey() {
       toast.error("Inserisci un titolo.");
       return;
     }
-    if (polygon.length < 3) {
-      toast.error("L'area deve avere almeno 3 punti.");
+    if (polygon.length > 0 && polygon.length < 3) {
+      toast.error("L'area deve avere almeno 3 punti oppure nessuno.");
       return;
     }
+
     setBusy(true);
     const { error } = await supabase
       .from("surveys")
