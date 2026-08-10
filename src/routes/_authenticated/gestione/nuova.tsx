@@ -46,10 +46,11 @@ function NewSurvey() {
       toast.error("Inserisci un titolo.");
       return;
     }
-    if (polygon.length < 3) {
-      toast.error("Disegna l'area con almeno 3 punti sulla mappa.");
+    if (polygon.length > 0 && polygon.length < 3) {
+      toast.error("Disegna almeno 3 punti oppure lascia l'area vuota.");
       return;
     }
+
     setBusy(true);
     const { data: userData } = await supabase.auth.getUser();
     const ownerId = userData.user?.id;
@@ -117,9 +118,10 @@ function NewSurvey() {
           </div>
 
           <div>
-            <Label>Area dell'indagine</Label>
+            <Label>Area dell'indagine (facoltativa)</Label>
             <p className="mt-1 text-xs text-muted-foreground">
-              Tocca la mappa per aggiungere i vertici dell'area. Servono almeno 3 punti.
+              Puoi creare l'indagine senza area. Se vuoi delimitarla, tocca la mappa per
+              aggiungere i vertici: servono almeno 3 punti.
             </p>
             <div className="mt-2 overflow-hidden rounded-xl border border-border">
               <MapView
