@@ -39,26 +39,13 @@ function Index() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      <section className="bg-primary px-4 pb-10 pt-4 text-primary-foreground">
+      <section className="bg-primary px-4 pb-8 pt-4 text-primary-foreground">
         <div className="mx-auto max-w-4xl text-center">
           <h1 className="text-3xl font-extrabold leading-tight sm:text-4xl">
             I problemi dei <span className="text-accent">QUARTIERI</span> di Pordenone
           </h1>
-          <img
-            src={notepad.url}
-            alt="Cartello Dimmi ti ascolto — I problemi dei quartieri di Pordenone"
-            className="mx-auto mt-6 w-full max-w-sm rounded-xl shadow-lg"
-          />
-
-          <p className="mt-6 text-base opacity-95">
-            Scrivi il più importante per te e inseriscilo qui.
-          </p>
-          <p className="mt-1 text-sm opacity-80">
-            Nessuna registrazione, nessun filtro: il nome è facoltativo.
-          </p>
         </div>
       </section>
-
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <h2 className="font-display text-2xl text-primary">Indagini aperte</h2>
@@ -104,6 +91,21 @@ function Index() {
           ))}
         </div>
       </main>
+
+      <section className="mx-auto max-w-4xl px-4 pb-10 text-center">
+        <img
+          src={notepad.url}
+          alt="Cartello Dimmi ti ascolto — I problemi dei quartieri di Pordenone"
+          className="mx-auto w-full max-w-sm rounded-xl shadow-lg"
+        />
+
+        <p className="mt-6 text-base text-foreground">
+          Scrivi il più importante per te e inseriscilo qui.
+        </p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Nessuna registrazione, nessun filtro: il nome è facoltativo.
+        </p>
+      </section>
 
       <SiteFooter />
     </div>
