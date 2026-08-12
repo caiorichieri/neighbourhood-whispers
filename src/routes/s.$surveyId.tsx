@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, MapPin, Minus, Plus, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, MapPin, Minus, Plus, X } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -121,9 +121,18 @@ function SurveyPage() {
 
         {survey && sent && (
           <div className="rounded-xl border border-border bg-card p-8 text-center">
-            <p className="font-display text-3xl text-primary">Grazie!</p>
+            <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+              <Check className="size-7" />
+            </div>
+            <p className="mt-4 font-display text-4xl text-primary">
+              Grazie per la partecipazione!
+            </p>
+            <p className="mt-3 text-base font-semibold text-foreground">
+              La tua risposta è stata registrata correttamente.
+            </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              La tua opinione è stata registrata.
+              Il tuo contributo ci aiuta a capire i problemi del quartiere. Le risposte
+              sono anonime e non vengono pubblicate.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               <Button variant="outline" onClick={restart}>
