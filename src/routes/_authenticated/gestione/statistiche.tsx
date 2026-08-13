@@ -206,6 +206,13 @@ function StatsPage() {
           Tasso di partecipazione: <strong className="text-primary">{conversion}%</strong> delle
           visite si è trasformato in una risposta.
         </p>
+        {hasHistory && (
+          <p className="mt-1 text-xs text-muted-foreground">
+            I dati dal 3 al 12 agosto provengono dallo storico importato; dal 13 agosto in poi sono
+            registrati direttamente dal sito.
+          </p>
+        )}
+
 
         <section className="mt-8 rounded-xl border border-border bg-card p-4">
           <h2 className="font-display text-2xl text-primary">Visite e risposte per giorno</h2>
