@@ -16,7 +16,7 @@ import {
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
 import { fetchAllResponses, fetchAllSurveys } from "@/lib/surveys";
-import { fetchPageViews } from "@/lib/visits";
+import { fetchHistoryBreakdown, fetchHistoryDaily, fetchPageViews } from "@/lib/visits";
 
 export const Route = createFileRoute("/_authenticated/gestione/statistiche")({
   head: () => ({
@@ -57,6 +57,14 @@ function StatsPage() {
     queryKey: ["page-views", days],
     queryFn: () => fetchPageViews(days),
   });
+  const { data: history } = useQuery({
+    queryKey: ["history-daily", days],
+    queryFn: () => fetchHistoryDaily(days),
+  });
+  const { data: breakdown } = useQuery({
+    queryKey: ["history-breakdown"],
+    queryFn: fetchHistoryBreakdown,
+  });
   const { data: responses } = useQuery({ queryKey: ["all-responses"], queryFn: fetchAllResponses });
   const { data: surveys } = useQuery({ queryKey: ["all-surveys"], queryFn: fetchAllSurveys });
 
@@ -66,11 +74,17 @@ function StatsPage() {
     [responses, since],
   );
 
+  const hasHistory = (history ?? []).length > 0;
+
   const daily = useMemo(() => {
     const map = new Map<string, { day: string; visite: number; risposte: number }>();
     for (let i = days - 1; i >= 0; i--) {
       const key = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
       map.set(key, { day: labelOf(key), visite: 0, risposte: 0 });
+    }
+    for (const h of history ?? []) {
+      const row = map.get(h.day);
+      if (row) row.visite += h.pageviews;
     }
     for (const v of views ?? []) {
       const row = map.get(dayKey(v.created_at));
@@ -81,22 +95,40 @@ function StatsPage() {
       if (row) row.risposte += 1;
     }
     return [...map.values()];
-  }, [views, periodResponses, days]);
+  }, [views, history, periodResponses, days]);
 
-  const totalViews = views?.length ?? 0;
-  const sessions = new Set((views ?? []).map((v) => v.session_id ?? v.id)).size;
-  const mobileShare = totalViews
-    ? Math.round(((views ?? []).filter((v) => v.is_mobile).length / totalViews) * 100)
-    : 0;
+  const historyViews = (history ?? []).reduce((a, h) => a + h.pageviews, 0);
+  const historyVisitors = (history ?? []).reduce((a, h) => a + h.visitors, 0);
+  const totalViews = (views?.length ?? 0) + historyViews;
+  const sessions = new Set((views ?? []).map((v) => v.session_id ?? v.id)).size + historyVisitors;
+
+  const historyMobile = (breakdown ?? []).find((b) => b.kind === "device" && b.label === "mobile");
+  const historyDesktop = (breakdown ?? []).find((b) => b.kind === "device" && b.label === "desktop");
+  const mobileCount =
+    (views ?? []).filter((v) => v.is_mobile).length + (hasHistory ? (historyMobile?.count ?? 0) : 0);
+  const deviceTotal =
+    (views?.length ?? 0) +
+    (hasHistory ? (historyMobile?.count ?? 0) + (historyDesktop?.count ?? 0) : 0);
+  const mobileShare = deviceTotal ? Math.round((mobileCount / deviceTotal) * 100) : 0;
 
   const byPage = useMemo(() => {
     const map = new Map<string, number>();
+    if (hasHistory) {
+      for (const b of breakdown ?? []) {
+        if (b.kind === "page") map.set(b.label, b.count);
+      }
+    }
     for (const v of views ?? []) map.set(v.path, (map.get(v.path) ?? 0) + 1);
     return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
-  }, [views]);
+  }, [views, breakdown, hasHistory]);
 
   const bySource = useMemo(() => {
     const map = new Map<string, number>();
+    if (hasHistory) {
+      for (const b of breakdown ?? []) {
+        if (b.kind === "source") map.set(b.label, b.count);
+      }
+    }
     for (const v of views ?? []) {
       let key = "Diretto";
       if (v.referrer) {
@@ -110,7 +142,7 @@ function StatsPage() {
       map.set(key, (map.get(key) ?? 0) + 1);
     }
     return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, 6);
-  }, [views]);
+  }, [views, breakdown, hasHistory]);
 
   const perSurvey = useMemo(() => {
     return (surveys ?? []).map((s) => ({
@@ -123,6 +155,7 @@ function StatsPage() {
   const withPoint = periodResponses.filter((r) => r.lat != null && r.lng != null).length;
   const withPhone = periodResponses.filter((r) => r.phone).length;
   const conversion = totalViews ? Math.round((periodResponses.length / totalViews) * 100) : 0;
+
 
   return (
     <div className="min-h-screen bg-background">
