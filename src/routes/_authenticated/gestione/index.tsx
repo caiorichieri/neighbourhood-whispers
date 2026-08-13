@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Copy, LogOut, MapPin, MessageSquare, Pencil, Phone, Plus, Trash2 } from "lucide-react";
+import { BarChart3, Copy, LogOut, MapPin, MessageSquare, Pencil, Phone, Plus, Trash2 } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -97,11 +97,18 @@ function ManagePage() {
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="font-display text-3xl text-primary">Dashboard</h1>
-          <Button asChild>
-            <Link to="/gestione/nuova">
-              <Plus className="size-4" /> Nuova indagine
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="outline">
+              <Link to="/gestione/statistiche">
+                <BarChart3 className="size-4" /> Statistiche
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link to="/gestione/nuova">
+                <Plus className="size-4" /> Nuova indagine
+              </Link>
+            </Button>
+          </div>
         </div>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">

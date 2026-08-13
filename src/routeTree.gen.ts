@@ -17,6 +17,7 @@ import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
 import { Route as AuthenticatedGestioneIndexRouteImport } from './routes/_authenticated/gestione/index'
 import { Route as AuthenticatedGestioneSurveyIdRouteImport } from './routes/_authenticated/gestione/$surveyId'
 import { Route as AuthenticatedGestioneNuovaRouteImport } from './routes/_authenticated/gestione/nuova'
+import { Route as AuthenticatedGestioneStatisticheRouteImport } from './routes/_authenticated/gestione/statistiche'
 import { Route as AuthenticatedGestioneModificaSurveyIdRouteImport } from './routes/_authenticated/gestione/modifica.$surveyId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +62,12 @@ const AuthenticatedGestioneNuovaRoute =
     path: '/gestione/nuova',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedGestioneStatisticheRoute =
+  AuthenticatedGestioneStatisticheRouteImport.update({
+    id: '/gestione/statistiche',
+    path: '/gestione/statistiche',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedGestioneModificaSurveyIdRoute =
   AuthenticatedGestioneModificaSurveyIdRouteImport.update({
     id: '/gestione/modifica/$surveyId',
@@ -75,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/s/$surveyId': typeof SSurveyIdRoute
   '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
   '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/gestione/statistiche': typeof AuthenticatedGestioneStatisticheRoute
   '/gestione/': typeof AuthenticatedGestioneIndexRoute
   '/gestione/modifica/$surveyId': typeof AuthenticatedGestioneModificaSurveyIdRoute
 }
@@ -85,6 +93,7 @@ export interface FileRoutesByTo {
   '/s/$surveyId': typeof SSurveyIdRoute
   '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
   '/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/gestione/statistiche': typeof AuthenticatedGestioneStatisticheRoute
   '/gestione': typeof AuthenticatedGestioneIndexRoute
   '/gestione/modifica/$surveyId': typeof AuthenticatedGestioneModificaSurveyIdRoute
 }
@@ -97,6 +106,7 @@ export interface FileRoutesById {
   '/s/$surveyId': typeof SSurveyIdRoute
   '/_authenticated/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
   '/_authenticated/gestione/nuova': typeof AuthenticatedGestioneNuovaRoute
+  '/_authenticated/gestione/statistiche': typeof AuthenticatedGestioneStatisticheRoute
   '/_authenticated/gestione/': typeof AuthenticatedGestioneIndexRoute
   '/_authenticated/gestione/modifica/$surveyId': typeof AuthenticatedGestioneModificaSurveyIdRoute
 }
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/s/$surveyId'
     | '/gestione/$surveyId'
     | '/gestione/nuova'
+    | '/gestione/statistiche'
     | '/gestione/'
     | '/gestione/modifica/$surveyId'
   fileRoutesByTo: FileRoutesByTo
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/s/$surveyId'
     | '/gestione/$surveyId'
     | '/gestione/nuova'
+    | '/gestione/statistiche'
     | '/gestione'
     | '/gestione/modifica/$surveyId'
   id:
@@ -130,6 +142,7 @@ export interface FileRouteTypes {
     | '/s/$surveyId'
     | '/_authenticated/gestione/$surveyId'
     | '/_authenticated/gestione/nuova'
+    | '/_authenticated/gestione/statistiche'
     | '/_authenticated/gestione/'
     | '/_authenticated/gestione/modifica/$surveyId'
   fileRoutesById: FileRoutesById
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGestioneNuovaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/gestione/statistiche': {
+      id: '/_authenticated/gestione/statistiche'
+      path: '/gestione/statistiche'
+      fullPath: '/gestione/statistiche'
+      preLoaderRoute: typeof AuthenticatedGestioneStatisticheRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/gestione/modifica/$surveyId': {
       id: '/_authenticated/gestione/modifica/$surveyId'
       path: '/gestione/modifica/$surveyId'
@@ -213,6 +233,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedGestioneSurveyIdRoute: typeof AuthenticatedGestioneSurveyIdRoute
   AuthenticatedGestioneNuovaRoute: typeof AuthenticatedGestioneNuovaRoute
+  AuthenticatedGestioneStatisticheRoute: typeof AuthenticatedGestioneStatisticheRoute
   AuthenticatedGestioneIndexRoute: typeof AuthenticatedGestioneIndexRoute
   AuthenticatedGestioneModificaSurveyIdRoute: typeof AuthenticatedGestioneModificaSurveyIdRoute
 }
@@ -220,6 +241,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedGestioneSurveyIdRoute: AuthenticatedGestioneSurveyIdRoute,
   AuthenticatedGestioneNuovaRoute: AuthenticatedGestioneNuovaRoute,
+  AuthenticatedGestioneStatisticheRoute: AuthenticatedGestioneStatisticheRoute,
   AuthenticatedGestioneIndexRoute: AuthenticatedGestioneIndexRoute,
   AuthenticatedGestioneModificaSurveyIdRoute:
     AuthenticatedGestioneModificaSurveyIdRoute,
