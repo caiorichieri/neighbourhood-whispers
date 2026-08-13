@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_history_breakdown: {
+        Row: {
+          count: number
+          kind: string
+          label: string
+        }
+        Insert: {
+          count?: number
+          kind: string
+          label: string
+        }
+        Update: {
+          count?: number
+          kind?: string
+          label?: string
+        }
+        Relationships: []
+      }
+      analytics_history_daily: {
+        Row: {
+          day: string
+          pageviews: number
+          visitors: number
+        }
+        Insert: {
+          day: string
+          pageviews?: number
+          visitors?: number
+        }
+        Update: {
+          day?: string
+          pageviews?: number
+          visitors?: number
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           created_at: string

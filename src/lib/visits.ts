@@ -56,3 +56,34 @@ export async function fetchPageViews(days = 30): Promise<PageView[]> {
   if (error) throw error;
   return (data ?? []) as PageView[];
 }
+
+export interface HistoryDay {
+  day: string;
+  visitors: number;
+  pageviews: number;
+}
+
+export interface HistoryBreakdown {
+  kind: string;
+  label: string;
+  count: number;
+}
+
+/** Dati storici (3–12 agosto) importati dall'analytics della piattaforma. */
+export async function fetchHistoryDaily(days = 30): Promise<HistoryDay[]> {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from("analytics_history_daily")
+    .select("*")
+    .gte("day", since)
+    .order("day", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as HistoryDay[];
+}
+
+export async function fetchHistoryBreakdown(): Promise<HistoryBreakdown[]> {
+  const { data, error } = await supabase.from("analytics_history_breakdown").select("*");
+  if (error) throw error;
+  return (data ?? []) as HistoryBreakdown[];
+}
+
