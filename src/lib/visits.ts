@@ -35,7 +35,7 @@ export async function trackPageView(path: string) {
   try {
     await supabase.from("page_views").insert({
       path: path.slice(0, 300),
-      survey_id: surveyMatch ? surveyMatch[1] : null,
+      survey_id: surveyMatch?.[1] ?? null,
       session_id: getSessionId(),
       is_mobile: window.matchMedia("(max-width: 767px)").matches,
       referrer,
