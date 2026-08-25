@@ -1,14 +1,18 @@
-# Welcome to your Lovable project
+# Quartieri
+
+Este progetto recolhe opnioes de pessoas sobre os problemas dos quarteroes, preciso criar um site para que essa raccolta seja feita na internet. O gesto pode criar uma pesquisa para areàs especifica. Preciso de seja possível desenhar a area para ser Claro. Quem opnia não precisa se identifica è pode escrever o qie quiser. O tema eh aberto è sem filtro.
 
 This project was built with [Lovable](https://lovable.dev).
 
+**Live app**: https://neighbourhood-whispers.lovable.app
+
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/f1505a63-a96e-4976-a288-854a19bb779d).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +24,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
