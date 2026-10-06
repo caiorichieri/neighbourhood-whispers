@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { apriPreferenzeCookie } from "@/components/CookieBanner";
 import logo from "@/assets/logo-fabbrica.png.asset.json";
 import friuliOnLogo from "@/assets/friulion-logo.png.asset.json";
 
@@ -39,6 +40,7 @@ export function SiteFooter() {
           <Link to="/patrocinatori" className="font-semibold text-primary hover:underline">I nostri patrocinatori</Link>
           <Link to="/privacy" className="hover:text-foreground hover:underline">Informativa sulla privacy</Link>
           <Link to="/cookie-policy" className="hover:text-foreground hover:underline">Informativa sui cookie</Link>
+          <button type="button" onClick={apriPreferenzeCookie} className="hover:text-foreground hover:underline">Gestisci consenso cookie</button>
           <a href="mailto:privacy@friulion.it" className="hover:text-foreground hover:underline">DPO: privacy@friulion.it</a>
         </nav>
         <div className="flex flex-row items-center justify-center gap-3">
