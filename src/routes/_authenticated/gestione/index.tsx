@@ -292,7 +292,7 @@ function SponsorsManager() {
 
   return (
     <section className="mt-10">
-      <h2 className="font-display text-2xl text-primary">Sponsor</h2>
+      <h2 className="font-display text-2xl text-primary">Sponsors</h2>
       <form
         onSubmit={submit}
         className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-3"

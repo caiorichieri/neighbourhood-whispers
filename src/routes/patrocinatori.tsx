@@ -5,9 +5,9 @@ import { SponsorsSection } from "@/components/SponsorsSection";
 export const Route = createFileRoute("/patrocinatori")({
   head: () => ({
     meta: [
-      { title: "Sponsor | Dimmi, ti ascolto" },
+      { title: "Sponsors | Dimmi, ti ascolto" },
       { name: "description", content: "Le realtà che sostengono la raccolta di opinioni sui quartieri di Pordenone." },
-      { property: "og:title", content: "Sponsor — Dimmi, ti ascolto" },
+      { property: "og:title", content: "Sponsors — Dimmi, ti ascolto" },
       { property: "og:description", content: "Grazie a chi sostiene il progetto sui quartieri di Pordenone." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
