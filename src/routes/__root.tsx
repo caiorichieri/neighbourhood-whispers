@@ -7,6 +7,7 @@ import {
   useRouterState,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -15,6 +16,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { trackPageView } from "@/lib/visits";
+import { CookieBanner, haRifiutatoCookie } from "@/components/CookieBanner";
 
 
 function NotFoundComponent() {
@@ -39,7 +41,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -149,6 +151,7 @@ function RootComponent() {
 
   useEffect(() => {
     if (pathname.startsWith("/gestione")) return;
+    if (haRifiutatoCookie()) return;
     void trackPageView(pathname);
   }, [pathname]);
 
@@ -166,6 +169,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <CookieBanner />
       <Toaster position="top-center" />
     </QueryClientProvider>
   );

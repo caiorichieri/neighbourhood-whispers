@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/logo-fabbrica.png.asset.json";
 import friuliOnLogo from "@/assets/friulion-logo.png.asset.json";
-import { SponsorsSection } from "@/components/SponsorsSection";
 
 export function SiteHeader({ action }: { action?: React.ReactNode }) {
   return (
@@ -33,10 +32,15 @@ export function SiteHeader({ action }: { action?: React.ReactNode }) {
 export function SiteFooter() {
   return (
     <>
-      <SponsorsSection />
       <footer className="mt-6 border-t border-border bg-background">
 
       <div className="mx-auto max-w-4xl px-4 py-3">
+        <nav className="mb-2 flex flex-wrap justify-center gap-x-5 gap-y-1 text-sm text-muted-foreground">
+          <Link to="/patrocinatori" className="font-semibold text-primary hover:underline">I nostri patrocinatori</Link>
+          <Link to="/privacy" className="hover:text-foreground hover:underline">Informativa sulla privacy</Link>
+          <Link to="/cookie-policy" className="hover:text-foreground hover:underline">Informativa sui cookie</Link>
+          <a href="mailto:privacy@friulion.it" className="hover:text-foreground hover:underline">DPO: privacy@friulion.it</a>
+        </nav>
         <div className="flex flex-row items-center justify-center gap-3">
           <img
             src={friuliOnLogo.url}

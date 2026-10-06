@@ -18,6 +18,7 @@ export interface SurveyResponse {
   body: string;
   author_name: string | null;
   phone: string | null;
+  photo_path?: string | null;
   lat: number | null;
   lng: number | null;
   created_at: string;

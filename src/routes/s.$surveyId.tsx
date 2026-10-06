@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { ArrowLeft, ArrowRight, Check, MapPin, Minus, Plus, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Camera, Check, MapPin, Minus, Plus, X } from "lucide-react";
 import { MapView } from "@/components/MapView";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
 import { Button } from "@/components/ui/button";
@@ -51,6 +51,8 @@ function SurveyPage() {
   const [marker, setMarker] = useState<LatLng | null>(null);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
   const handleMarker = (p: LatLng | null) => {
     if (p && survey && survey.polygon.length >= 3 && !pointInPolygon(p, survey.polygon)) {
@@ -77,6 +79,20 @@ function SurveyPage() {
       return;
     }
     setSending(true);
+    let photo_path: string | null = null;
+    if (photo) {
+      const ext = (photo.name.split(".").pop() || "jpg").toLowerCase().slice(0, 5);
+      const path = `uploads/${surveyId}/${crypto.randomUUID()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("response-photos")
+        .upload(path, photo, { contentType: photo.type });
+      if (upErr) {
+        setSending(false);
+        toast.error("Caricamento della foto non riuscito. Riprova.");
+        return;
+      }
+      photo_path = path;
+    }
     const { error } = await supabase.from("responses").insert({
       survey_id: surveyId,
       body: text.slice(0, 5000),
@@ -84,6 +100,7 @@ function SurveyPage() {
       phone: phone.trim() ? phone.trim().slice(0, 40) : null,
       lat: marker ? marker[0] : null,
       lng: marker ? marker[1] : null,
+      photo_path,
     });
     setSending(false);
     if (error) {
@@ -93,6 +110,20 @@ function SurveyPage() {
     setSent(true);
   };
 
+  const pickPhoto = (f: File | null) => {
+    if (f && !f.type.startsWith("image/")) {
+      toast.error("Seleziona un'immagine.");
+      return;
+    }
+    if (f && f.size > 8 * 1024 * 1024) {
+      toast.error("La foto supera 8 MB.");
+      return;
+    }
+    if (photoPreview) URL.revokeObjectURL(photoPreview);
+    setPhoto(f);
+    setPhotoPreview(f ? URL.createObjectURL(f) : null);
+  };
+
   const restart = () => {
     setSent(false);
     setStep(1);
@@ -100,6 +131,7 @@ function SurveyPage() {
     setName("");
     setPhone("");
     setMarker(null);
+    pickPhoto(null);
   };
 
   return (
@@ -190,6 +222,31 @@ function SurveyPage() {
                     placeholder="Racconta qui…"
                     className="mt-3 text-base"
                   />
+                  <div className="mt-4 rounded-xl border border-dashed border-border p-4">
+                    <Label htmlFor="photo" className="flex items-center gap-2 font-semibold">
+                      <Camera className="size-4" /> Vuoi aggiungere una foto del luogo? (facoltativa)
+                    </Label>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Evita di fotografare persone riconoscibili o targhe. Max 8 MB.
+                    </p>
+                    {photoPreview ? (
+                      <div className="mt-3 flex items-start gap-3">
+                        <img src={photoPreview} alt="Anteprima foto" className="h-28 rounded-lg border border-border object-cover" />
+                        <Button type="button" variant="outline" size="sm" onClick={() => pickPhoto(null)}>
+                          <X className="size-4" /> Rimuovi
+                        </Button>
+                      </div>
+                    ) : (
+                      <Input
+                        id="photo"
+                        type="file"
+                        accept="image/*"
+                        className="mt-3"
+                        onChange={(e) => pickPhoto(e.target.files?.[0] ?? null)}
+                      />
+                    )}
+                  </div>
+
                   <Button type="button" size="lg" className="mt-4 w-full" onClick={next}>
                     Prosegui <ArrowRight className="size-4" />
                   </Button>
@@ -293,6 +350,16 @@ function SurveyPage() {
                       />
                     </div>
                   </div>
+
+                  <p className="mt-4 rounded-lg bg-muted p-3 text-xs text-muted-foreground">
+                    Nome, telefono e foto sono facoltativi e verranno usati solo per ricontattarti
+                    in merito a questa indagine. Leggi l'{" "}
+                    <Link to="/privacy" className="underline hover:text-foreground">
+                      informativa sulla privacy
+                    </Link>
+                    .
+                  </p>
+
 
                   <div className="mt-4 flex gap-2">
                     <Button
