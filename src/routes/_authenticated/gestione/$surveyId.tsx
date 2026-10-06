@@ -165,7 +165,7 @@ function SurveyResponses() {
                   Punto segnalato: {r.lat.toFixed(5)}, {r.lng.toFixed(5)}
                 </p>
               )}
-
+              {r.photo_path && <ResponsePhoto path={r.photo_path} />}
             </article>
           ))}
         </div>
