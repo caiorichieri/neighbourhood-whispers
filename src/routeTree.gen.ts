@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AccessoRouteImport } from './routes/accesso'
+import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
+import { Route as PatrocinatoriRouteImport } from './routes/patrocinatori'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SSurveyIdRouteImport } from './routes/s.$surveyId'
 import { Route as AuthenticatedGestioneIndexRouteImport } from './routes/_authenticated/gestione/index'
@@ -32,6 +35,21 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AccessoRoute = AccessoRouteImport.update({
   id: '/accesso',
   path: '/accesso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiePolicyRoute = CookiePolicyRouteImport.update({
+  id: '/cookie-policy',
+  path: '/cookie-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatrocinatoriRoute = PatrocinatoriRouteImport.update({
+  id: '/patrocinatori',
+  path: '/patrocinatori',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -78,6 +96,9 @@ const AuthenticatedGestioneModificaSurveyIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/patrocinatori': typeof PatrocinatoriRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
   '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
@@ -89,6 +110,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accesso': typeof AccessoRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/patrocinatori': typeof PatrocinatoriRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
   '/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
@@ -102,6 +126,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/accesso': typeof AccessoRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/patrocinatori': typeof PatrocinatoriRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/s/$surveyId': typeof SSurveyIdRoute
   '/_authenticated/gestione/$surveyId': typeof AuthenticatedGestioneSurveyIdRoute
@@ -115,6 +142,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accesso'
+    | '/cookie-policy'
+    | '/patrocinatori'
+    | '/privacy'
     | '/reset-password'
     | '/s/$surveyId'
     | '/gestione/$surveyId'
@@ -126,6 +156,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accesso'
+    | '/cookie-policy'
+    | '/patrocinatori'
+    | '/privacy'
     | '/reset-password'
     | '/s/$surveyId'
     | '/gestione/$surveyId'
@@ -138,6 +171,9 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/accesso'
+    | '/cookie-policy'
+    | '/patrocinatori'
+    | '/privacy'
     | '/reset-password'
     | '/s/$surveyId'
     | '/_authenticated/gestione/$surveyId'
@@ -151,6 +187,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AccessoRoute: typeof AccessoRoute
+  CookiePolicyRoute: typeof CookiePolicyRoute
+  PatrocinatoriRoute: typeof PatrocinatoriRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SSurveyIdRoute: typeof SSurveyIdRoute
 }
@@ -176,6 +215,27 @@ declare module '@tanstack/react-router' {
       path: '/accesso'
       fullPath: '/accesso'
       preLoaderRoute: typeof AccessoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookie-policy': {
+      id: '/cookie-policy'
+      path: '/cookie-policy'
+      fullPath: '/cookie-policy'
+      preLoaderRoute: typeof CookiePolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patrocinatori': {
+      id: '/patrocinatori'
+      path: '/patrocinatori'
+      fullPath: '/patrocinatori'
+      preLoaderRoute: typeof PatrocinatoriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -254,6 +314,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AccessoRoute: AccessoRoute,
+  CookiePolicyRoute: CookiePolicyRoute,
+  PatrocinatoriRoute: PatrocinatoriRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SSurveyIdRoute: SSurveyIdRoute,
 }

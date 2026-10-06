@@ -1,10 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchSponsors } from "@/lib/sponsors";
 
-export function SponsorsSection() {
+export function SponsorsSection({ showEmpty = false }: { showEmpty?: boolean }) {
   const { data: sponsors } = useQuery({ queryKey: ["sponsors"], queryFn: fetchSponsors });
 
-  if (!sponsors || sponsors.length === 0) return null;
+  if (!sponsors || sponsors.length === 0) {
+    if (!showEmpty) return null;
+    return (
+      <section className="mx-auto max-w-4xl px-4 py-8 text-center">
+        <h2 className="font-display text-2xl text-primary">Patrocinatori</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Presto qui i nostri patrocinatori.</p>
+      </section>
+    );
+  }
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-8">
