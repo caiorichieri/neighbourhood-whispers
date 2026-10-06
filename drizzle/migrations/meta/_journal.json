@@ -8,6 +8,13 @@
       "when": 1791312671155,
       "tag": "0000_response_photos",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791313061616,
+      "tag": "0001_tighten_storage_policies",
+      "breakpoints": true
     }
   ]
 }
