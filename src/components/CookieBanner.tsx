@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 
 const CHIAVE_CONSENSO = "consenso-cookie";
+const EVENTO_RIAPRI = "riapri-consenso-cookie";
+
+// Riapre il banner per modificare la scelta
+export function apriPreferenzeCookie() {
+  window.dispatchEvent(new Event(EVENTO_RIAPRI));
+}
 
 // Banner GDPR: visibile finché l'utente non sceglie Accetta o Rifiuta
 export function CookieBanner() {
@@ -9,6 +15,9 @@ export function CookieBanner() {
 
   useEffect(() => {
     if (!localStorage.getItem(CHIAVE_CONSENSO)) setVisibile(true);
+    const riapri = () => setVisibile(true);
+    window.addEventListener(EVENTO_RIAPRI, riapri);
+    return () => window.removeEventListener(EVENTO_RIAPRI, riapri);
   }, []);
 
   const decidi = (scelta: "accettato" | "rifiutato") => {
@@ -17,6 +26,7 @@ export function CookieBanner() {
   };
 
   if (!visibile) return null;
+  const scelta = localStorage.getItem(CHIAVE_CONSENSO);
 
   return (
     <div
@@ -34,6 +44,11 @@ export function CookieBanner() {
           .
         </p>
         <div className="flex shrink-0 gap-2">
+          {scelta && (
+            <span className="self-center text-xs text-muted-foreground">
+              Scelta attuale: {scelta === "accettato" ? "accettati" : "rifiutati"}
+            </span>
+          )}
           <button
             onClick={() => decidi("rifiutato")}
             className="rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteFooter, SiteHeader } from "@/components/SiteHeader";
+import { apriPreferenzeCookie } from "@/components/CookieBanner";
 
 export const Route = createFileRoute("/cookie-policy")({
   head: () => ({
@@ -44,8 +45,12 @@ function CookiePage() {
         </p>
         <h2 className="text-lg font-bold text-foreground">Modificare la scelta</h2>
         <p>
-          Puoi cambiare la tua scelta cancellando i dati del sito dal browser: il banner verrà
-          mostrato di nuovo. Per informazioni:{" "}
+          Puoi modificare o revocare la tua scelta in qualsiasi momento con il link "Gestisci
+          consenso cookie" in fondo a ogni pagina, oppure qui:{" "}
+          <button type="button" onClick={apriPreferenzeCookie} className="font-semibold text-primary underline">
+            modifica le preferenze
+          </button>
+          . Per informazioni:{" "}
           <a href="mailto:privacy@friulion.it" className="underline hover:text-foreground">privacy@friulion.it</a>.
         </p>
       </main>
