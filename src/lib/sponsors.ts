@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { listSponsorsWithLogos } from "@/lib/sponsors.functions";
 
 export interface Sponsor {
   id: string;
@@ -12,22 +13,8 @@ export interface Sponsor {
 
 const BUCKET = "sponsors";
 
-async function withSignedUrls(rows: Sponsor[]): Promise<Sponsor[]> {
-  if (rows.length === 0) return rows;
-  const { data } = await supabase.storage
-    .from(BUCKET)
-    .createSignedUrls(rows.map((r) => r.logo_path), 60 * 60 * 24);
-  return rows.map((r, i) => ({ ...r, logo_url: data?.[i]?.signedUrl ?? undefined }));
-}
-
 export async function fetchSponsors(): Promise<Sponsor[]> {
-  const { data, error } = await supabase
-    .from("sponsors")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: true });
-  if (error) throw error;
-  return withSignedUrls(data as Sponsor[]);
+  return (await listSponsorsWithLogos()) as Sponsor[];
 }
 
 export async function createSponsor(input: {
