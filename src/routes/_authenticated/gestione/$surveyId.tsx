@@ -174,3 +174,22 @@ function SurveyResponses() {
     </div>
   );
 }
+
+// Foto allegata a una risposta (bucket privato, URL firmato)
+function ResponsePhoto({ path }: { path: string }) {
+  const { data: url } = useQuery({
+    queryKey: ["response-photo", path],
+    queryFn: async () => {
+      const { data } = await supabase.storage
+        .from("response-photos")
+        .createSignedUrl(path, 3600);
+      return data?.signedUrl ?? null;
+    },
+  });
+  if (!url) return null;
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer" className="mt-3 block">
+      <img src={url} alt="Foto del luogo" className="max-h-72 rounded-lg border border-border object-cover" />
+    </a>
+  );
+}
