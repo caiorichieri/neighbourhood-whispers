@@ -8,15 +8,15 @@ export function SponsorsSection({ showEmpty = false }: { showEmpty?: boolean }) 
     if (!showEmpty) return null;
     return (
       <section className="mx-auto max-w-4xl px-4 py-8 text-center">
-        <h2 className="font-display text-2xl text-primary">Patrocinatori</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Presto qui i nostri patrocinatori.</p>
+        <h2 className="font-display text-2xl text-primary">Sponsor</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Presto qui i nostri sponsor.</p>
       </section>
     );
   }
 
   return (
     <section className="mx-auto max-w-4xl px-4 py-8">
-      <h2 className="text-center font-display text-2xl text-primary">Patrocinatori</h2>
+      <h2 className="text-center font-display text-2xl text-primary">Sponsor</h2>
       <p className="mt-1 text-center text-sm text-muted-foreground">
         Grazie a chi sostiene questo progetto.
       </p>

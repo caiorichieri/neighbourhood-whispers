@@ -269,7 +269,7 @@ function SponsorsManager() {
       setUrl("");
       setFile(null);
       await queryClient.invalidateQueries({ queryKey: ["sponsors"] });
-      toast.success("Patrocinatore aggiunto.");
+      toast.success("Sponsor aggiunto.");
     } catch {
       toast.error("Salvataggio non riuscito.");
     } finally {
@@ -280,11 +280,11 @@ function SponsorsManager() {
   const remove = async (id: string) => {
     const sponsor = sponsors?.find((s) => s.id === id);
     if (!sponsor) return;
-    if (!window.confirm("Eliminare questo patrocinatore?")) return;
+    if (!window.confirm("Eliminare questo sponsor?")) return;
     try {
       await deleteSponsor(sponsor);
       await queryClient.invalidateQueries({ queryKey: ["sponsors"] });
-      toast.success("Patrocinatore eliminato.");
+      toast.success("Sponsor eliminato.");
     } catch {
       toast.error("Eliminazione non riuscita.");
     }
@@ -292,7 +292,7 @@ function SponsorsManager() {
 
   return (
     <section className="mt-10">
-      <h2 className="font-display text-2xl text-primary">Patrocinatori</h2>
+      <h2 className="font-display text-2xl text-primary">Sponsor</h2>
       <form
         onSubmit={submit}
         className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-3"
@@ -300,7 +300,7 @@ function SponsorsManager() {
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Nome del patrocinatore"
+          placeholder="Nome del sponsor"
           maxLength={120}
           className="rounded-md border border-input bg-background px-3 py-2 text-sm"
         />
@@ -318,14 +318,14 @@ function SponsorsManager() {
         />
         <div className="sm:col-span-3">
           <Button type="submit" size="sm" disabled={saving}>
-            <Plus className="size-4" /> {saving ? "Caricamento…" : "Aggiungi patrocinatore"}
+            <Plus className="size-4" /> {saving ? "Caricamento…" : "Aggiungi sponsor"}
           </Button>
         </div>
       </form>
 
       {sponsors?.length === 0 && (
         <p className="mt-4 rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          Nessun patrocinatore inserito: la sezione resta nascosta sul sito finché non ne aggiungi
+          Nessun sponsor inserito: la sezione resta nascosta sul sito finché non ne aggiungi
           almeno uno.
         </p>
       )}

@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-// Elenco pubblico dei patrocinatori con URL firmati dei loghi (generati sul server)
+// Elenco pubblico dei sponsor con URL firmati dei loghi (generati sul server)
 export const listSponsorsWithLogos = createServerFn({ method: "GET" }).handler(async () => {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data, error } = await supabaseAdmin
@@ -8,7 +8,7 @@ export const listSponsorsWithLogos = createServerFn({ method: "GET" }).handler(a
     .select("id, name, website_url, logo_path, sort_order, created_at")
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: true });
-  if (error) throw new Error("Impossibile caricare i patrocinatori");
+  if (error) throw new Error("Impossibile caricare i sponsor");
   const rows = data ?? [];
   if (rows.length === 0) return [];
   const { data: urls } = await supabaseAdmin.storage

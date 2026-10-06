@@ -37,7 +37,7 @@ export function SiteFooter() {
 
       <div className="mx-auto max-w-4xl px-4 py-3">
         <nav className="mb-2 flex flex-wrap justify-center gap-x-5 gap-y-1 text-sm text-muted-foreground">
-          <Link to="/patrocinatori" className="font-semibold text-primary hover:underline">I nostri patrocinatori</Link>
+          <Link to="/patrocinatori" className="font-semibold text-primary hover:underline">I nostri sponsor</Link>
           <Link to="/privacy" className="hover:text-foreground hover:underline">Informativa sulla privacy</Link>
           <Link to="/cookie-policy" className="hover:text-foreground hover:underline">Informativa sui cookie</Link>
           <button type="button" onClick={apriPreferenzeCookie} className="hover:text-foreground hover:underline">Gestisci consenso cookie</button>
