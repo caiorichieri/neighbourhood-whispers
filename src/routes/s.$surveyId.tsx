@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { pointInPolygon, type LatLng } from "@/lib/geo";
 import { fetchSurvey } from "@/lib/surveys";
+import { uploadResponsePhoto } from "@/lib/photos.functions";
 
 export const Route = createFileRoute("/s/$surveyId")({
   head: () => ({
@@ -81,17 +82,17 @@ function SurveyPage() {
     setSending(true);
     let photo_path: string | null = null;
     if (photo) {
-      const ext = (photo.name.split(".").pop() || "jpg").toLowerCase().slice(0, 5);
-      const path = `uploads/${surveyId}/${crypto.randomUUID()}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("response-photos")
-        .upload(path, photo, { contentType: photo.type });
-      if (upErr) {
+      try {
+        const fd = new FormData();
+        fd.append("surveyId", surveyId);
+        fd.append("file", photo);
+        const res = await uploadResponsePhoto({ data: fd });
+        photo_path = res.path;
+      } catch {
         setSending(false);
         toast.error("Caricamento della foto non riuscito. Riprova.");
         return;
       }
-      photo_path = path;
     }
     const { error } = await supabase.from("responses").insert({
       survey_id: surveyId,

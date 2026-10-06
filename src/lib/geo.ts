@@ -39,7 +39,12 @@ export function toCsv(rows: string[][]): string {
   return rows
     .map((row) =>
       row
-        .map((cell) => `"${(cell ?? "").replace(/"/g, '""')}"`)
+        .map((cell) => {
+          let v = cell ?? "";
+          // Neutralizza le formule nei fogli di calcolo (CSV injection)
+          if (/^[=+\-@\t\r]/.test(v)) v = `'${v}`;
+          return `"${v.replace(/"/g, '""')}"`;
+        })
         .join(";"),
     )
     .join("\n");
